@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,15 @@ using System.Transactions;
 
 namespace WebApplication1.Models
 {
+    public class CustomerContext : DbContext
+    {
+        public DbSet<Customer> Customers { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=MyDatabase.db");
+        }
+    }
 
     public class Customer
     {
