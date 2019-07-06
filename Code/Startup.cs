@@ -48,16 +48,13 @@ namespace CustomerService
                 });
             });
 
-            // datetime format
-            
-
             // create db context
             String connection = Configuration["ConnectionStrings:LiveConnection"];
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
-
+            
             /*
             var connection = @"Data Source = customer_2c2p.db";
-            services.AddDbContext<CustomerContext>(options => options.UseSqlite(connection));
+            services.AddDbContext<DB2C2PContext>(options => options.UseSqlite(connection));
             */
         }
 
