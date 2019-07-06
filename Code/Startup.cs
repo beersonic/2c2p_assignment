@@ -43,8 +43,7 @@ namespace CustomerService
             });
 
             // create db context
-            
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=DB2C2P;Trusted_Connection=True;ConnectRetryCount=0";
+            String connection = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
             /*
             var connection = @"Data Source = customer_2c2p.db";
