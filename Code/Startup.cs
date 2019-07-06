@@ -49,7 +49,7 @@ namespace CustomerService
             });
 
             // create db context
-            String connection = Configuration["ConnectionStrings:LiveConnection"];
+            String connection = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
             
             /*
