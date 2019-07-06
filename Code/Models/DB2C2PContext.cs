@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -28,6 +29,8 @@ namespace CustomerService.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<Customer>(entity =>
@@ -44,6 +47,12 @@ namespace CustomerService.Models
                 entity.Property(e => e.Status).HasMaxLength(8);
             });
 
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetProperties())
+                .Where(p => p.ClrType == typeof(decimal)))
+                {
+                    property.Relational().ColumnType = "decimal(18, 2)";
+                }
             /*
             modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 1, ContactEmail = "beer1@gmail.com", CustomerName = "beer1", MobileNo = "0811111111" });
             modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 2, ContactEmail = "beer2@gmail.com", CustomerName = "beer2", MobileNo = "0812222222" });

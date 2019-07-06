@@ -27,7 +27,13 @@ namespace CustomerService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.DateFormatString = "dd/MM/yyyy HH:mm";
+                        options.SerializerSettings.Converters.Add(new DecimalConverter());
+                    });
 
             // swagger
             services.AddSwaggerGen(c =>
@@ -42,9 +48,13 @@ namespace CustomerService
                 });
             });
 
+            // datetime format
+            
+
             // create db context
             String connection = Configuration["ConnectionStrings:LiveConnection"];
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
+
             /*
             var connection = @"Data Source = customer_2c2p.db";
             services.AddDbContext<CustomerContext>(options => options.UseSqlite(connection));
