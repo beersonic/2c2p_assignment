@@ -79,7 +79,7 @@ namespace CustomerService.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        private async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
              var customers = await _context.Customer.ToListAsync();
             foreach (var c in customers)

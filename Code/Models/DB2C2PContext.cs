@@ -22,7 +22,7 @@ namespace CustomerService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+                optionsBuilder.UseSqlite("Data Source=DB2C2P.db");
             }
         }
 
@@ -43,6 +43,13 @@ namespace CustomerService.Models
 
                 entity.Property(e => e.Status).HasMaxLength(8);
             });
+
+            /*
+            modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 1, ContactEmail = "beer1@gmail.com", CustomerName = "beer1", MobileNo = "0811111111" });
+            modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 2, ContactEmail = "beer2@gmail.com", CustomerName = "beer2", MobileNo = "0812222222" });
+            modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 3, ContactEmail = "beer3@gmail.com", CustomerName = "beer3", MobileNo = "0813333333" });
+            modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 4, ContactEmail = "beer4@gmail.com", CustomerName = "beer4", MobileNo = "0814444444" });
+            */
         }
     }
 }

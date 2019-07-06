@@ -12,5 +12,6 @@ namespace CustomerService.Models
         public string ContactEmail { get; set; }
         public string MobileNo { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
+        
     }
 }
