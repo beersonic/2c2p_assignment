@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CustomerService.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace WebApplication1
+namespace CustomerService
 {
     public class Startup
     {
@@ -27,6 +29,7 @@ namespace WebApplication1
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            // swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
@@ -38,6 +41,15 @@ namespace WebApplication1
                     Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "beersonic", Email = "contact@beersonic.com" }
                 });
             });
+
+            // create db context
+            
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=DB2C2P;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
+            /*
+            var connection = @"Data Source = customer_2c2p.db";
+            services.AddDbContext<CustomerContext>(options => options.UseSqlite(connection));
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
