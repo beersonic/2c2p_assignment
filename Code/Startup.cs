@@ -53,7 +53,7 @@ namespace CustomerService
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlServer(connection));
             
             /*
-            var connection = @"Data Source = customer_2c2p.db";
+            var connection = @"Data Source = unittest.db";
             services.AddDbContext<DB2C2PContext>(options => options.UseSqlite(connection));
             */
         }

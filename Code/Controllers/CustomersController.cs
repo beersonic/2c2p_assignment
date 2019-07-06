@@ -49,13 +49,15 @@ namespace CustomerService.Controllers
             {
                 return BadRequest("Invalid email");
             }
-            var customer = await _context.Customer.FirstAsync(p => p.ContactEmail == email);
-            
-            if (customer == null)
+
+            var customer = await _context.Customer.FirstOrDefaultAsync(c => c.ContactEmail == email);
+            if (customer == null
+                || customer.ContactEmail == null
+                || customer.ContactEmail != email)
             {
                 return NotFound();
             }
-
+            
             // transaction
             var transactions = await _context.Transaction.Where(t => t.CustomerId == customer.CustomerId).ToListAsync();
             customer.Transactions = transactions;

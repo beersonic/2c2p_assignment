@@ -13,7 +13,7 @@ namespace CustomerService.Models
         [EmailAddress]
         [MaxLength(25)]
         public string ContactEmail { get; set; }
-        [Range(1000000000, 9999999999)]
+        [RegularExpression(@"\d{10}")]
         public string MobileNo { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
         

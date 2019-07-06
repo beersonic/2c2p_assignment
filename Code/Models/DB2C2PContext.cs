@@ -27,10 +27,29 @@ namespace CustomerService.Models
             }
         }
 
+        public void Seed()
+        {
+            this.Customer.Add(new Models.Customer
+            { CustomerId = 1, ContactEmail = "beer1@gmail.com", CustomerName = "beer1", MobileNo = "0811111111" });
+
+            this.Customer.Add(new Models.Customer
+            { CustomerId = 2, ContactEmail = "beer2@gmail.com", CustomerName = "beer2", MobileNo = "0822222222" });
+
+            this.Transaction.Add(new Models.Transaction
+            { TransactionId = 1, TransactionDateTime = DateTime.Now, Amount = new decimal(100.01), CurrencyCode = "USD", Status = StatusEnum.Success, CustomerId = 1 });
+
+            this.Transaction.Add(new Models.Transaction
+            { TransactionId = 2, TransactionDateTime = DateTime.Now, Amount = new decimal(100.001), CurrencyCode = "THB", Status = StatusEnum.Canceled, CustomerId = 1 });
+
+            this.Transaction.Add(new Models.Transaction
+            { TransactionId = 3, TransactionDateTime = DateTime.Now, Amount = new decimal(100.005), CurrencyCode = "CNY", Status = StatusEnum.Success, CustomerId = 1 });
+
+            this.Transaction.Add(new Models.Transaction
+            { TransactionId = 4, TransactionDateTime = DateTime.Now, Amount = new decimal(100.0049), CurrencyCode = "GBP", Status = StatusEnum.Failed, CustomerId = 2 });
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<Customer>(entity =>
@@ -59,6 +78,8 @@ namespace CustomerService.Models
             modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 3, ContactEmail = "beer3@gmail.com", CustomerName = "beer3", MobileNo = "0813333333" });
             modelBuilder.Entity<Customer>().HasData(new Customer { CustomerId = 4, ContactEmail = "beer4@gmail.com", CustomerName = "beer4", MobileNo = "0814444444" });
             */
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
