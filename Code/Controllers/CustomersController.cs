@@ -25,7 +25,7 @@ namespace CustomerService.Controllers
 
         [HttpGet]
         [Route("GetCustomerById/{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(int id)
+        private async Task<ActionResult<Customer>> GetCustomerById(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
 
@@ -43,8 +43,12 @@ namespace CustomerService.Controllers
 
         [HttpGet]
         [Route("GetCustomerByEmail/{email}")]
-        public async Task<ActionResult<Customer>> GetCustomerByEmail(string email)
+        private async Task<ActionResult<Customer>> GetCustomerByEmail(string email)
         {
+            if (!Util.IsValidEmail(email))
+            {
+                return BadRequest("Invalid email");
+            }
             var customer = await _context.Customer.FirstAsync(p => p.ContactEmail == email);
             
             if (customer == null)
@@ -59,9 +63,23 @@ namespace CustomerService.Controllers
             return customer;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Customer>> PostCustomer(CustomerRequest request)
+        {
+            if (request.CustomerId.HasValue)
+            {
+                return await GetCustomerById(request.CustomerId.Value);
+            }
+            else if (request.Email != null)
+            {
+                return await GetCustomerByEmail(request.Email);
+            }
+            return BadRequest("No inquiry criteria");
+        }
+
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        private async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
              var customers = await _context.Customer.ToListAsync();
             foreach (var c in customers)
@@ -76,7 +94,7 @@ namespace CustomerService.Controllers
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        private async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -106,7 +124,8 @@ namespace CustomerService.Controllers
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        [Route("CreateCustomer/{email}")]
+        private async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
@@ -116,7 +135,7 @@ namespace CustomerService.Controllers
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
+        private async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
             if (customer == null)
